@@ -34,3 +34,10 @@ notebooks/eda_outputs/
 
 # Build & Packaging
 *.egg-info/
+
+# 프로젝트 로컬 conda env (VS Code 자동 생성분)
+.conda/
+
+# 생성 산출물 (notebooks/02_preprocessing.ipynb로 재생성)
+data/interim/
+data/processed/
