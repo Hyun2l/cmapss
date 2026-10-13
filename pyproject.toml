@@ -6,7 +6,19 @@ build-backend = "setuptools.build_meta"
 name = "cmapss"
 version = "0.1.0"
 description = "NASA C-MAPSS turbofan RUL prediction — portfolio project"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "pyarrow>=15",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ipykernel", "jupyterlab"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

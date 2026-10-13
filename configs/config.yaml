@@ -1,0 +1,18 @@
+# 경로는 프로젝트 루트 기준 상대경로. load_config()가 절대경로로 변환함.
+dataset: FD001
+
+paths:
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+
+preprocess:
+  rul_cap: 125        # piecewise-linear RUL 상한 (커뮤니티 표준 120~130)
+  window_size: 30
+  val_ratio: 0.2
+  seed: 42
+  dead_sensor_threshold: 0.01
+
+evaluate:
+  phm_a_early: 13.0
+  phm_a_late: 10.0
