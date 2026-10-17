@@ -5,6 +5,7 @@ paths:
   raw_dir: data/raw
   interim_dir: data/interim
   processed_dir: data/processed
+  results_dir: results
 
 preprocess:
   rul_cap: 125        # piecewise-linear RUL 상한 (커뮤니티 표준 120~130)
