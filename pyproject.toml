@@ -19,6 +19,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ipykernel", "jupyterlab"]
+dl = ["torch>=2.2"]          # LSTM / MC Dropout 실험용 (기본 설치에는 포함되지 않음)
 
 [tool.setuptools.packages.find]
 where = ["src"]

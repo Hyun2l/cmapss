@@ -2,7 +2,7 @@
 베이스라인 모델 (sklearn).
 
 (N, window, features) 시퀀스를 트리/선형 모델에 넣기 위해 tabular로 변환한 뒤 학습.
-딥러닝 모델(LSTM, MC Dropout, Attention 등)은 이후 단계에서 추가 예정.
+LSTM과 MC Dropout은 lstm.py에 있다. Attention은 아직 구현하지 않았다.
 """
 import numpy as np
 from sklearn.ensemble import RandomForestRegressor
