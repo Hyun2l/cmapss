@@ -1,6 +1,6 @@
 # CMAPSS RUL Prediction
 
-NASA CMAPSS 데이터를 활용해 항공 엔진의 잔여수명(RUL)을 예측하는 머신러닝 프로젝트입니다.
+NASA CMAPSS 데이터를 활용해 항공 엔진의 잔여수명(RUL)을 예측하는 머신러닝 프로젝트
 
 ## Setup
 
@@ -12,7 +12,7 @@ pip install -e ".[dl]"            # LSTM / MC Dropout 실험을 돌릴 때만
 ```
 
 `pip install -e .`로 `src/cmapss` 패키지가 설치되므로 노트북/테스트 어디서든 `from cmapss... import ...`가 동작합니다.
-VS Code / Jupyter 커널은 `cmapss` env를 선택하세요.
+VS Code / Jupyter 커널은 `cmapss` env를 선택.
 
 ## Project structure
 
@@ -54,7 +54,7 @@ tests/                   # pytest
 **평가 기준**
 - test = 엔진 100대 각각의 마지막 윈도우 1개.
 - **capped**: 정답 RUL도 학습 라벨과 같이 125로 자른 값(문헌 비교 기준). **raw**: `RUL_FD001.txt` 원본(125 초과 엔진 11대에서 모델이 구조적으로 손해).
-- val = 엔진 20대의 모든 슬라이딩 윈도우. PHM score는 합계라 샘플 수가 다른 val/test끼리 비교하지 않는다.
+- val = 엔진 20대의 모든 슬라이딩 윈도우. PHM score는 합계라 샘플 수가 다른 val/test끼리 비교 X.
 - 단일 실행은 seed 42 (`python scripts/run_experiment.py`).
 
 | 모델 | val RMSE | test RMSE (capped) | test RMSE (raw) | PHM (capped) |
@@ -79,8 +79,8 @@ tests/                   # pytest
 - **구간별 LSTM 오차**(capped): 실제 RUL 0–50에서 RMSE **4.11**, 50–100에서 19.75, 100 이상에서 11.19. **고장이 임박한 구간에서 가장 정확**하며, 이는 예지정비에서 가장 중요한 구간이다. 50–100은 열화가 막 시작되는 전환 구간이라 가장 어렵다.
 
 ### 알려진 함정: 타깃 스케일
-원본 RUL(평균 약 81)을 그대로 타깃으로 쓰면 LSTM이 입력과 무관한 상수를 출력한다(예측 std = 0).
-원인은 **출력 크기 불일치**다. 초기 출력은 0 근처인데, Adam은 스텝당 파라미터를 약 lr만큼만 움직여 출력을 81까지 끌어올리는 데 수천 스텝이 걸린다. 그동안 은닉 상태가 포화되어 입력 정보가 사라진다.
+원본 RUL(평균 약 81)을 그대로 타깃으로 쓰면 LSTM이 입력과 무관한 상수를 출력 (예측 std = 0).
+원인은 **출력 크기 불일치**다. 초기 출력은 0 근처인데, Adam은 스텝당 파라미터를 약 lr만큼만 움직여 출력을 81까지 끌어올리는 데 수천 스텝이 걸린다. 그동안 은닉 상태가 포화되어 입력 정보가 사라지는 현상 발생.
 
 | 설정 (각 8 epoch) | val RMSE | 예측 평균 | 예측 std |
 |---|---|---|---|
@@ -88,7 +88,7 @@ tests/                   # pytest
 | B. 원본 타깃 + 출력 bias를 평균으로 초기화 | 21.20 | 81.6 | 25.8 |
 | C. 타깃 / 125 (채택) | **13.10** | 81.9 | 40.8 |
 
-A는 40 epoch가 지나서야 평균 예측 수준(41.8)에 도달한다. B처럼 출력 시작점만 맞춰도 학습되므로 원인이 출력 크기라는 것을 확인했고, 출력·손실·기울기 크기를 모두 1 근처로 맞추는 C를 채택했다. `python scripts/diag_target_scaling.py`로 재현할 수 있다.
+A는 40 epoch가 지나서야 평균 예측 수준(41.8)에 도달한다. B처럼 출력 시작점만 맞춰도 학습되므로 원인이 출력 크기라는 것을 확인했고, 출력·손실·기울기 크기를 모두 1 근처로 맞추는 C를 채택. `python scripts/diag_target_scaling.py`로 재현가능.
 
 ## Dataset overview (sensor descriptions from the paper)
 
