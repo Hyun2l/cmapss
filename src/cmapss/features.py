@@ -140,3 +140,40 @@ def create_test_sequences(test_df: pd.DataFrame, feature_cols: list, window_size
         X.append(window)
         unit_ids.append(unit)
     return np.array(X), np.array(unit_ids)
+
+
+# ------------------------------------------------------------------
+# 운영조건별 정규화 (FD002/FD004)
+# ------------------------------------------------------------------
+SETTING_COLS = ["op_setting1", "op_setting2", "op_setting3"]
+
+
+def regime_keys(df: pd.DataFrame) -> pd.Series:
+    """운영조건 키. FD001/FD003은 1개, FD002/FD004는 6개가 나온다.
+
+    (round(op1), round(100*op2), round(op3)) — Gupta(2026)와 같은 결정적 규칙이라
+    무작위성(KMeans 초기값 등) 없이 재현된다.
+    """
+    k = (df["op_setting1"].round().astype(int).astype(str) + "_"
+         + (df["op_setting2"] * 100).round().astype(int).astype(str) + "_"
+         + df["op_setting3"].round().astype(int).astype(str))
+    return k
+
+
+def fit_regime_scaler(train_df: pd.DataFrame, feature_cols: list) -> dict:
+    """운영조건마다 MinMaxScaler를 train에서만 fit. 조건이 하나면 fit_scaler와 같다."""
+    keys = regime_keys(train_df)
+    return {k: fit_scaler(g, feature_cols) for k, g in train_df.groupby(keys)}
+
+
+def apply_regime_scaler(df: pd.DataFrame, scalers: dict, feature_cols: list) -> pd.DataFrame:
+    """각 행을 그 행의 운영조건 scaler로 변환. train에 없던 조건이면 에러."""
+    df = df.copy()
+    keys = regime_keys(df)
+    unknown = set(keys) - set(scalers)
+    if unknown:
+        raise ValueError(f"train에 없는 운영조건: {sorted(unknown)}")
+    df[feature_cols] = df[feature_cols].astype(float)
+    for k, idx in keys.groupby(keys).groups.items():
+        df.loc[idx, feature_cols] = scalers[k].transform(df.loc[idx, feature_cols])
+    return df
