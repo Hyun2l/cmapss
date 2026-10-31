@@ -3,7 +3,8 @@ import pandas as pd
 
 from cmapss.features import (add_rul_column, apply_regime_scaler, apply_scaler, fit_regime_scaler,
                              fit_scaler, regime_keys)
-from cmapss.protocol import engine_bootstrap_diff, selection_summary, truncated_windows
+from cmapss.protocol import (delta_rmse_diff, engine_bootstrap_diff, engines_needed,
+                             gaussian_half_width, rmse_np, selection_summary, truncated_windows)
 
 
 def _df(lengths=(40, 50), regimes=1, seed=0):
@@ -57,3 +58,35 @@ def test_selection_summary_regret():
     s = selection_summary({"a": 1.0, "b": 2.0}, {"a": 3.0, "b": 2.5})
     assert s["picked"] == "a" and s["test_best"] == "b" and not s["top1"]
     assert s["regret"] == 0.5
+
+
+def _paired_errors(n, sigma, rho, seed):
+    rng = np.random.default_rng(seed)
+    e = rng.multivariate_normal([0, 0], sigma ** 2 * np.array([[1, rho], [rho, 1]]), n)
+    y = rng.uniform(0, 125, n)
+    return y, y + e[:, 0], y + e[:, 1]
+
+
+def test_delta_matches_bootstrap():
+    """정규 오차에서 delta method 반폭이 bootstrap 반폭과 10% 안으로 맞는다."""
+    y, pa, pb = _paired_errors(400, 12.0, 0.8, seed=1)
+    d = delta_rmse_diff(y, pa, pb)
+    bs = engine_bootstrap_diff(y, pa, pb, n_boot=4000, seed=1)
+    assert abs(d["diff"] - bs["diff"]) < 1e-12
+    assert abs(d["half_width"] / bs["half_width"] - 1) < 0.10
+
+
+def test_gaussian_half_width_matches_simulation():
+    """닫힌 식 sigma*sqrt((1-rho^2)/n)이 반복 시뮬레이션의 RMSE 차이 표준편차와 맞는다."""
+    n, sigma, rho = 100, 12.0, 0.9
+    diffs = []
+    for s in range(2000):
+        y, pa, pb = _paired_errors(n, sigma, rho, seed=s)
+        diffs.append(rmse_np(y, pa) - rmse_np(y, pb))
+    expected_se = gaussian_half_width(sigma, rho, n) / 1.96
+    assert abs(np.std(diffs) / expected_se - 1) < 0.08
+
+
+def test_engines_needed_inverts_half_width():
+    n = engines_needed(12.0, 0.9, 0.5)
+    assert gaussian_half_width(12.0, 0.9, n) <= 0.5 < gaussian_half_width(12.0, 0.9, n - 1)
