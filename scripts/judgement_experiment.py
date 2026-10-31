@@ -3,6 +3,8 @@
 실행:
   python scripts/judgement_experiment.py --quick                  # FD001, seed 2개, 동작 확인 (수 분)
   python scripts/judgement_experiment.py --subsets FD001 FD002 FD003 FD004 --seeds 10   # 본 실험
+  python scripts/judgement_experiment.py --subsets FD001 FD002 FD003 FD004 --models CNN --append
+      # 모델만 추가: 같은 seed면 분할·정규화가 같으므로 기존 결과에 이어 붙인다
 
 각 (서브셋, seed)마다 엔진 단위로 train/val을 나누고 모델 4개를 한 번씩 학습한 뒤,
 같은 모델을 두 가지 검증 방식과 test로 채점한다. 판정은 scripts/judgement_analysis.py.
@@ -10,7 +12,7 @@
 고정한 프로토콜 (모든 서브셋 동일):
   - 센서 14개(표준 세트), 윈도우 30, 학습 라벨 RUL cap 125
   - 운영조건이 여러 개면 조건별 MinMax(train 엔진에서만 fit), 하나면 전역 MinMax
-  - LSTM early stopping은 '모든 윈도우' 검증으로 고정 (threat to validity로 보고)
+  - LSTM/CNN early stopping은 '모든 윈도우' 검증으로 고정 (threat to validity로 보고)
   - test는 엔진당 마지막 윈도우, 지표는 정답 cap 기준과 원본 기준 둘 다 저장
 """
 import argparse
@@ -23,14 +25,16 @@ from cmapss.config import load_config
 from cmapss.data import FD001_DEAD_SENSORS, SENSOR_COLS, load_data, load_rul_labels
 from cmapss.features import (add_rul_column, apply_regime_scaler, create_sequences,
                              create_test_sequences, fit_regime_scaler, regime_keys, split_units)
+from cmapss.cnn import train_cnn
 from cmapss.lstm import predict, train_lstm
 from cmapss.models import sequences_to_tabular, train_hist_gb, train_random_forest, train_ridge
 from cmapss.protocol import rmse_np, truncated_windows
 
 FEATURES = [c for c in SENSOR_COLS if c not in FD001_DEAD_SENSORS]   # 표준 14개
+MODELS = ["Ridge", "RandomForest", "HistGB", "LSTM", "CNN"]
 
 
-def run_one(subset, seed, cfg, quick, out_preds):
+def run_one(subset, seed, cfg, quick, out_preds, models=MODELS):
     raw = cfg["paths"]["raw_dir"]
     pp = cfg["preprocess"]
     cap, window = pp["rul_cap"], pp["window_size"]
@@ -63,16 +67,21 @@ def run_one(subset, seed, cfg, quick, out_preds):
     }
     rows = []
     for name, fit in fits.items():
+        if name not in models:
+            continue
         t0 = time.time()
         m = fit()
         preds = [m.predict(t) for t in tabs[1:]]
         rows.append((name, preds, time.time() - t0, None))
 
-    t0 = time.time()
-    lstm, info = train_lstm(X_tr, y_tr, X_va, y_va, seed=seed, y_scale=float(cap), verbose=False,
-                            **({"max_epochs": 8, "patience": 3} if quick else {}))
-    rows.append(("LSTM", [predict(lstm, x) for x in (X_va, X_vt, X_te)], time.time() - t0,
-                 info["epochs_run"]))
+    for name, train in (("LSTM", train_lstm), ("CNN", train_cnn)):
+        if name not in models:
+            continue
+        t0 = time.time()
+        net, info = train(X_tr, y_tr, X_va, y_va, seed=seed, y_scale=float(cap), verbose=False,
+                          **({"max_epochs": 8, "patience": 3} if quick else {}))
+        rows.append((name, [predict(net, x) for x in (X_va, X_vt, X_te)], time.time() - t0,
+                     info["epochs_run"]))
 
     records = []
     for name, (p_va, p_vt, p_te), sec, epochs in rows:
@@ -92,6 +101,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--subsets", nargs="+", default=["FD001"])
     ap.add_argument("--seeds", type=int, default=10)
+    ap.add_argument("--models", nargs="+", default=MODELS, choices=MODELS)
+    ap.add_argument("--append", action="store_true", help="기존 runs.jsonl·test_preds.npz에 이어 붙임")
     ap.add_argument("--quick", action="store_true", help="FD001·seed 2개·짧은 학습으로 동작 확인")
     args = ap.parse_args()
     if args.quick:
@@ -101,11 +112,13 @@ def main():
     out_dir = cfg["paths"]["results_dir"] / ("judgement_quick" if args.quick else "judgement")
     out_dir.mkdir(parents=True, exist_ok=True)
     preds = {}
-    with open(out_dir / "runs.jsonl", "w") as f:
+    if args.append and (out_dir / "test_preds.npz").exists():
+        preds = dict(np.load(out_dir / "test_preds.npz"))
+    with open(out_dir / "runs.jsonl", "a" if args.append else "w") as f:
         for subset in args.subsets:
             for seed in range(args.seeds):
                 t0 = time.time()
-                for r in run_one(subset, seed, cfg, args.quick, preds):
+                for r in run_one(subset, seed, cfg, args.quick, preds, args.models):
                     f.write(json.dumps(r) + "\n")
                 f.flush()
                 print(f"{subset} seed {seed} done ({time.time() - t0:.0f}s)", flush=True)
