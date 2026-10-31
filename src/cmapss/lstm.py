@@ -56,8 +56,15 @@ def train_lstm(X_tr, y_tr, X_val, y_val, *, hidden=64, layers=2, dropout=0.2,
     """
     torch.manual_seed(seed)
     np.random.seed(seed)
-
     model = RULLSTM(X_tr.shape[2], hidden, layers, dropout)
+    return fit_sequence_model(model, X_tr, y_tr, X_val, y_val, lr=lr, batch=batch,
+                              max_epochs=max_epochs, patience=patience, seed=seed,
+                              y_scale=y_scale, verbose=verbose)
+
+
+def fit_sequence_model(model, X_tr, y_tr, X_val, y_val, *, lr=3e-3, batch=256, max_epochs=60,
+                       patience=8, seed=42, y_scale=125.0, verbose=True):
+    """(N, window, F)를 받는 모델 공용 학습 루프 (LSTM, CNN). 모델 초기화 전에 seed를 고정할 것."""
     model.y_scale = y_scale
     opt = torch.optim.Adam(model.parameters(), lr=lr)
     lossf = nn.MSELoss()

@@ -34,3 +34,13 @@ def train_random_forest(X_tab: np.ndarray, y: np.ndarray, seed: int = 42, **kwar
     model = RandomForestRegressor(random_state=seed, **params)
     model.fit(X_tab, y)
     return model
+
+
+def train_hist_gb(X_tab: np.ndarray, y: np.ndarray, seed: int = 42, **kwargs):
+    """HistGradientBoosting: 큰 데이터(FD002/004)에서도 빠른 boosting 베이스라인."""
+    from sklearn.ensemble import HistGradientBoostingRegressor
+    params = {"max_iter": 300, "learning_rate": 0.05, "max_leaf_nodes": 31}
+    params.update(kwargs)
+    model = HistGradientBoostingRegressor(random_state=seed, **params)
+    model.fit(X_tab, y)
+    return model

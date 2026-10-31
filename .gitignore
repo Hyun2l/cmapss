@@ -41,3 +41,6 @@ notebooks/eda_outputs/
 # 생성 산출물 (notebooks/02_preprocessing.ipynb로 재생성)
 data/interim/
 data/processed/
+
+# 판정 실험 동작 확인용 출력
+results/judgement_quick/
