@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from cmapss.features import (add_rul_column, apply_regime_scaler, apply_scaler, fit_regime_scaler,
                              fit_scaler, regime_keys)
@@ -76,9 +77,14 @@ def test_delta_matches_bootstrap():
     assert abs(d["half_width"] / bs["half_width"] - 1) < 0.10
 
 
-def test_gaussian_half_width_matches_simulation():
-    """닫힌 식 sigma*sqrt((1-rho^2)/n)이 반복 시뮬레이션의 RMSE 차이 표준편차와 맞는다."""
-    n, sigma, rho = 100, 12.0, 0.9
+@pytest.mark.parametrize("rho", [0.0, 0.5, 0.9])
+def test_gaussian_half_width_matches_simulation(rho):
+    """닫힌 식 sigma*sqrt((1-rho^2)/n)이 반복 시뮬레이션의 RMSE 차이 표준편차와 맞는다.
+
+    rho=0, 0.5에서는 오차 차이의 식 sigma*sqrt(2(1-rho)/n)과 크게 달라 어느 식인지 가려진다
+    (rho=0.9에서는 두 식이 3%밖에 차이 나지 않는다).
+    """
+    n, sigma = 100, 12.0
     diffs = []
     for s in range(2000):
         y, pa, pb = _paired_errors(n, sigma, rho, seed=s)
