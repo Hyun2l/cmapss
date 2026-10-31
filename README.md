@@ -41,6 +41,7 @@ scripts/
   diag_target_scaling.py # LSTM 학습 실패(상수 출력) 진단
   judgement_experiment.py, judgement_analysis.py  # FD001–FD004 × seed 10 → results/judgement/
   delta_check.py         # delta method 반폭 vs bootstrap 검산
+  plot_resolution.py     # README 그림 → results/figures/
 results/                 # 실험 결과 JSON
 tests/                   # pytest
 ```
@@ -101,6 +102,10 @@ C-MAPSS test는 엔진당 마지막 윈도우 하나라 FD001/FD003은 100개, F
 
 - 프로토콜 (모든 서브셋 동일): 표준 센서 14개, 윈도우 30, RUL cap 125, 운영조건이 여럿이면 조건별 MinMax(train 엔진에서만 fit), 엔진 단위 train/val 분할
 - `python scripts/judgement_experiment.py --subsets FD001 FD002 FD003 FD004 --seeds 10` (1D-CNN은 `--models CNN --append`로 추가) → `python scripts/judgement_analysis.py` → `python scripts/delta_check.py`
+
+![test 1·2등 RMSE 차이의 95% 구간](results/figures/test_resolution.png)
+
+한 줄이 seed 하나의 test 1등과 2등 차이와 95% 구간이다(`python scripts/plot_resolution.py`). 구간이 0을 지나면 두 모델을 구분할 수 없다.
 
 **test 1·2등 차이의 95% 구간** (seed 10개 중앙값, capped)
 
