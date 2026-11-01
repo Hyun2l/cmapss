@@ -144,6 +144,7 @@ $$\mathrm{SE}\approx\sigma\sqrt{\frac{1-\rho^2}{n}}$$
 
 - 반폭은 **모델 오차 크기 $\sigma$에 비례**하고, **엔진 수의 제곱근에 반비례**하며, **두 모델이 얼마나 다르게 틀리는지($\sqrt{1-\rho^2}$)**에 좌우된다. FD002/FD004는 엔진이 2.5배 많지만 $\sigma$가 커서 반폭이 FD001과 비슷하다. 같은 test 세트 안에서도 비교하는 쌍에 따라 해상도가 달라진다. FD003에서 RF vs HistGB($\rho\approx0.88$)는 반폭 1.51, RF vs 1D-CNN($\rho\approx0.67$)은 3.18이다. 같은 계열(트리끼리, 시퀀스 모델끼리)은 비슷하게 틀려서 작은 차이도 보이고, 계열이 다르면 잡음이 커진다.
 - 실측 검산 (`scripts/delta_check.py`): delta 반폭 1.06/1.00/1.58/0.95 vs bootstrap 1.07/1.02/1.53/0.94. 정규 근사는 0.94/0.85/1.33/0.78로 11–18% 작다. RUL 오차의 첨도가 4.4–5.0(정규분포는 3)으로 꼬리가 두꺼워서다. 그래서 필요 엔진 수는 정규 근사가 아니라 실측 delta 반폭에서 $n'=n\,(h/h')^2$로 역산했다.
+- 엔진 수 외삽 검산 (`scripts/n_scaling.py`): train 엔진의 2-fold out-of-fold 예측에서 n대를 4,000번씩 뽑아 차이의 실측 표준편차를 delta SE와 비교했다(서브셋 4개 × 모델 쌍 3개). n=50–200에서 실측/delta 비는 0.93–1.10, n=25에서는 1.03–1.13으로 delta가 약간 작게 잡는다. delta SE의 log-log 기울기는 −0.43~−0.47(이론 −0.5)로, 위 표의 필요 엔진 수가 기대는 $1/\sqrt n$ 축소가 실측으로도 성립한다.
 - 구현: `src/cmapss/protocol.py`의 `delta_rmse_diff`, `gaussian_half_width`, `engines_needed`. 정규 오차 시뮬레이션에서 bootstrap·반복 실험과 맞는지 `tests/test_protocol.py`로 확인한다.
 
 ### 시도했지만 지지되지 않은 것

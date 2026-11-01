@@ -1,0 +1,492 @@
+{
+  "FD001": {
+    "N_engines": 100,
+    "overall_rmse": {
+      "HistGB": 14.47,
+      "RandomForest": 14.95,
+      "LSTM": 15.92
+    },
+    "pairs": {
+      "HistGB vs RandomForest": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.3199,
+            "delta_se": 1.2192,
+            "delta_se_fpc": 1.0612,
+            "mean_diff": -0.476
+          },
+          {
+            "n": 50,
+            "empirical_sd": 0.9095,
+            "delta_se": 0.8995,
+            "delta_se_fpc": 0.6393,
+            "mean_diff": -0.463
+          },
+          {
+            "n": 75,
+            "empirical_sd": 0.7238,
+            "delta_se": 0.7457,
+            "delta_se_fpc": 0.3747,
+            "mean_diff": -0.488
+          }
+        ],
+        "loglog_slope_delta_se": -0.447,
+        "sd_over_fpc_se_median": 1.423
+      },
+      "HistGB vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.3347,
+            "delta_se": 2.2632,
+            "delta_se_fpc": 1.9699,
+            "mean_diff": -1.492
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.6291,
+            "delta_se": 1.6679,
+            "delta_se_fpc": 1.1853,
+            "mean_diff": -1.452
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.2961,
+            "delta_se": 1.3752,
+            "delta_se_fpc": 0.691,
+            "mean_diff": -1.476
+          }
+        ],
+        "loglog_slope_delta_se": -0.452,
+        "sd_over_fpc_se_median": 1.374
+      },
+      "RandomForest vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.2614,
+            "delta_se": 2.2032,
+            "delta_se_fpc": 1.9177,
+            "mean_diff": -1.017
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.5923,
+            "delta_se": 1.6064,
+            "delta_se_fpc": 1.1416,
+            "mean_diff": -0.952
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.2681,
+            "delta_se": 1.3291,
+            "delta_se_fpc": 0.6679,
+            "mean_diff": -1.002
+          }
+        ],
+        "loglog_slope_delta_se": -0.46,
+        "sd_over_fpc_se_median": 1.395
+      }
+    }
+  },
+  "FD003": {
+    "N_engines": 100,
+    "overall_rmse": {
+      "HistGB": 14.66,
+      "RandomForest": 15.62,
+      "LSTM": 15.71
+    },
+    "pairs": {
+      "HistGB vs RandomForest": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.2822,
+            "delta_se": 1.1704,
+            "delta_se_fpc": 1.0187,
+            "mean_diff": -0.98
+          },
+          {
+            "n": 50,
+            "empirical_sd": 0.886,
+            "delta_se": 0.8703,
+            "delta_se_fpc": 0.6185,
+            "mean_diff": -0.967
+          },
+          {
+            "n": 75,
+            "empirical_sd": 0.7084,
+            "delta_se": 0.7182,
+            "delta_se_fpc": 0.3609,
+            "mean_diff": -0.959
+          }
+        ],
+        "loglog_slope_delta_se": -0.443,
+        "sd_over_fpc_se_median": 1.432
+      },
+      "HistGB vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.5739,
+            "delta_se": 2.3851,
+            "delta_se_fpc": 2.076,
+            "mean_diff": -1.061
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.7737,
+            "delta_se": 1.7834,
+            "delta_se_fpc": 1.2674,
+            "mean_diff": -1.025
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.3821,
+            "delta_se": 1.4817,
+            "delta_se_fpc": 0.7446,
+            "mean_diff": -1.027
+          }
+        ],
+        "loglog_slope_delta_se": -0.432,
+        "sd_over_fpc_se_median": 1.399
+      },
+      "RandomForest vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.7509,
+            "delta_se": 2.5491,
+            "delta_se_fpc": 2.2187,
+            "mean_diff": -0.079
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.8517,
+            "delta_se": 1.9004,
+            "delta_se_fpc": 1.3506,
+            "mean_diff": -0.097
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.4607,
+            "delta_se": 1.5711,
+            "delta_se_fpc": 0.7895,
+            "mean_diff": -0.095
+          }
+        ],
+        "loglog_slope_delta_se": -0.439,
+        "sd_over_fpc_se_median": 1.371
+      }
+    }
+  },
+  "FD002": {
+    "N_engines": 260,
+    "overall_rmse": {
+      "HistGB": 16.77,
+      "RandomForest": 17.47,
+      "LSTM": 16.77
+    },
+    "pairs": {
+      "HistGB vs RandomForest": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.348,
+            "delta_se": 1.2405,
+            "delta_se_fpc": 1.1816,
+            "mean_diff": -0.7
+          },
+          {
+            "n": 50,
+            "empirical_sd": 0.9355,
+            "delta_se": 0.9112,
+            "delta_se_fpc": 0.8205,
+            "mean_diff": -0.691
+          },
+          {
+            "n": 75,
+            "empirical_sd": 0.7618,
+            "delta_se": 0.7493,
+            "delta_se_fpc": 0.6332,
+            "mean_diff": -0.711
+          },
+          {
+            "n": 100,
+            "empirical_sd": 0.6537,
+            "delta_se": 0.6572,
+            "delta_se_fpc": 0.5166,
+            "mean_diff": -0.695
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.5328,
+            "delta_se": 0.5415,
+            "delta_se_fpc": 0.3529,
+            "mean_diff": -0.695
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.4544,
+            "delta_se": 0.4707,
+            "delta_se_fpc": 0.2266,
+            "mean_diff": -0.7
+          }
+        ],
+        "loglog_slope_delta_se": -0.467,
+        "sd_over_fpc_se_median": 1.234
+      },
+      "HistGB vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.65,
+            "delta_se": 1.529,
+            "delta_se_fpc": 1.4564,
+            "mean_diff": -0.021
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.1862,
+            "delta_se": 1.1451,
+            "delta_se_fpc": 1.0311,
+            "mean_diff": -0.037
+          },
+          {
+            "n": 75,
+            "empirical_sd": 0.9447,
+            "delta_se": 0.94,
+            "delta_se_fpc": 0.7944,
+            "mean_diff": 0.003
+          },
+          {
+            "n": 100,
+            "empirical_sd": 0.8147,
+            "delta_se": 0.8204,
+            "delta_se_fpc": 0.6448,
+            "mean_diff": -0.012
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.6558,
+            "delta_se": 0.6755,
+            "delta_se_fpc": 0.4402,
+            "mean_diff": 0.005
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.5567,
+            "delta_se": 0.5873,
+            "delta_se_fpc": 0.2827,
+            "mean_diff": -0.006
+          }
+        ],
+        "loglog_slope_delta_se": -0.463,
+        "sd_over_fpc_se_median": 1.226
+      },
+      "RandomForest vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.8474,
+            "delta_se": 1.7159,
+            "delta_se_fpc": 1.6345,
+            "mean_diff": 0.671
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.3,
+            "delta_se": 1.2743,
+            "delta_se_fpc": 1.1475,
+            "mean_diff": 0.7
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.0576,
+            "delta_se": 1.0575,
+            "delta_se_fpc": 0.8937,
+            "mean_diff": 0.715
+          },
+          {
+            "n": 100,
+            "empirical_sd": 0.9223,
+            "delta_se": 0.9192,
+            "delta_se_fpc": 0.7225,
+            "mean_diff": 0.715
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.7331,
+            "delta_se": 0.757,
+            "delta_se_fpc": 0.4933,
+            "mean_diff": 0.678
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.6358,
+            "delta_se": 0.6585,
+            "delta_se_fpc": 0.317,
+            "mean_diff": 0.718
+          }
+        ],
+        "loglog_slope_delta_se": -0.462,
+        "sd_over_fpc_se_median": 1.23
+      }
+    }
+  },
+  "FD004": {
+    "N_engines": 249,
+    "overall_rmse": {
+      "HistGB": 16.91,
+      "RandomForest": 17.44,
+      "LSTM": 17.77
+    },
+    "pairs": {
+      "HistGB vs RandomForest": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 1.4768,
+            "delta_se": 1.3113,
+            "delta_se_fpc": 1.2463,
+            "mean_diff": -0.54
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.0926,
+            "delta_se": 0.9919,
+            "delta_se_fpc": 0.8885,
+            "mean_diff": -0.551
+          },
+          {
+            "n": 75,
+            "empirical_sd": 0.8696,
+            "delta_se": 0.8384,
+            "delta_se_fpc": 0.7022,
+            "mean_diff": -0.531
+          },
+          {
+            "n": 100,
+            "empirical_sd": 0.7605,
+            "delta_se": 0.7346,
+            "delta_se_fpc": 0.5694,
+            "mean_diff": -0.541
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.6174,
+            "delta_se": 0.6127,
+            "delta_se_fpc": 0.3871,
+            "mean_diff": -0.54
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.5319,
+            "delta_se": 0.5363,
+            "delta_se_fpc": 0.2384,
+            "mean_diff": -0.546
+          }
+        ],
+        "loglog_slope_delta_se": -0.431,
+        "sd_over_fpc_se_median": 1.287
+      },
+      "HistGB vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.3188,
+            "delta_se": 2.0524,
+            "delta_se_fpc": 1.9506,
+            "mean_diff": -0.819
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.6254,
+            "delta_se": 1.547,
+            "delta_se_fpc": 1.3858,
+            "mean_diff": -0.923
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.3009,
+            "delta_se": 1.278,
+            "delta_se_fpc": 1.0705,
+            "mean_diff": -0.892
+          },
+          {
+            "n": 100,
+            "empirical_sd": 1.125,
+            "delta_se": 1.121,
+            "delta_se_fpc": 0.8689,
+            "mean_diff": -0.869
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.9104,
+            "delta_se": 0.9198,
+            "delta_se_fpc": 0.5811,
+            "mean_diff": -0.848
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.7665,
+            "delta_se": 0.8004,
+            "delta_se_fpc": 0.3558,
+            "mean_diff": -0.871
+          }
+        ],
+        "loglog_slope_delta_se": -0.455,
+        "sd_over_fpc_se_median": 1.255
+      },
+      "RandomForest vs LSTM": {
+        "rows": [
+          {
+            "n": 25,
+            "empirical_sd": 2.4153,
+            "delta_se": 2.1473,
+            "delta_se_fpc": 2.0407,
+            "mean_diff": -0.364
+          },
+          {
+            "n": 50,
+            "empirical_sd": 1.7082,
+            "delta_se": 1.5914,
+            "delta_se_fpc": 1.4256,
+            "mean_diff": -0.344
+          },
+          {
+            "n": 75,
+            "empirical_sd": 1.3804,
+            "delta_se": 1.3368,
+            "delta_se_fpc": 1.1197,
+            "mean_diff": -0.274
+          },
+          {
+            "n": 100,
+            "empirical_sd": 1.2077,
+            "delta_se": 1.1708,
+            "delta_se_fpc": 0.9075,
+            "mean_diff": -0.338
+          },
+          {
+            "n": 150,
+            "empirical_sd": 0.9549,
+            "delta_se": 0.9632,
+            "delta_se_fpc": 0.6086,
+            "mean_diff": -0.311
+          },
+          {
+            "n": 200,
+            "empirical_sd": 0.819,
+            "delta_se": 0.842,
+            "delta_se_fpc": 0.3743,
+            "mean_diff": -0.318
+          }
+        ],
+        "loglog_slope_delta_se": -0.45,
+        "sd_over_fpc_se_median": 1.282
+      }
+    }
+  }
+}
